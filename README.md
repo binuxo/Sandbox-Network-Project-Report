@@ -1,25 +1,19 @@
-SANDBOXED NETWORK DIAGRAM
+SANDBOXED NETWORK DIAGRAM<br><br/>
 ![Network Diagram](doc/Networkdiagram.png) <br><br/>
-
-
-
-
-
-
-
-
 
 The diagram illustrates a network setup with two subnets (192.168.24.1 subnet and 192.168.124.1 subnet) and includes several components:
 1.	An Ubuntu Desktop on the 192.168.24.0 subnet, connected to a local network.
 2.	A Gateway Router with two LAN interfaces, each assigned an IP address in the respective subnets, allows traffic to route between the two subnets.
 3.	A Bitnami Application Server is located on the 192.168.124.0 subnet and connects to the gateway for network communication.
-4.	The Gateway Router is connected to the external network, providing internet access to both subnets.
+4.	The Gateway Router is connected to the external network, providing internet access to both subnets. <br><br/>
 This setup ensures that devices in both subnets can communicate with each other through the gateway and access the internet.
 
 
-
-
 IP ADDRESS TABLE FOR A SANDBOXED NETWORK
+
+IP Address Table
+<embed src="doc/IPTable.pdf" width="100%" height="400px" />
+<br><br/>
 
 DEVICE	INTERFACE	IP ADDRESS	Role	Subnet Mask	Gateway
 Ubuntu Desktop VM	Intnet	192.168.24.5	Management
