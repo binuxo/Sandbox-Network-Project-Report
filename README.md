@@ -1,4 +1,4 @@
-SANDBOXED NETWORK DIAGRAM<br><br/>
+## SANDBOXED NETWORK DIAGRAM<br><br/>
 ![Network Diagram](doc/Networkdiagram.png) <br><br/>
 
 The diagram illustrates a network setup with two subnets (192.168.24.1 subnet and 192.168.124.1 subnet) and includes several components:
@@ -13,29 +13,19 @@ IP ADDRESS TABLE FOR A SANDBOXED NETWORK
 
 IP Address Table
 <embed src="doc/IPTable.pdf" width="100%" height="400px" />
-<br><br/>
+<br><br/>				
 
-DEVICE	INTERFACE	IP ADDRESS	Role	Subnet Mask	Gateway
-Ubuntu Desktop VM	Intnet	192.168.24.5	Management
-VM	255.255.255.0	enp0s8
-					
-Ubuntu Server Gateway VM	NAT	192.168.24.1
-192.168.124.1	Gateway Internet Access	255.255.255.0	enp0s3
-					
-Bitnami Application Server VM	Intnet1	192.168.124.5	Application  Web Server	255.255.255.0	enp0s9
-					
-
-The IP table configuration ensures proper communication and internet access between the devices on the two subnets (192.168.24.1 and 192.168.124.1). It includes the following rules:
-1.	NAT (Network Address Translation): The gateway device uses NAT to masquerade outgoing subnet traffic, allowing internet access through the external interface (eth0). This is achieved with the command:
-sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
-2.	Forwarding Rules: The gateway allows traffic to be forwarded between the two subnets and the internet. It accepts established and related connections, ensuring the devices can communicate with each other and the internet. The following rules are applied:
-sudo iptables -A FORWARD -i enp0s8 -o enp0s9 -m state --state RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i enp0s9 -o enp0s8 -j ACCEPT
-3.	Persistence: The iptables configuration is saved using iptables-persistent, ensuring the rules remain in place after a reboot.
-This configuration allows the devices to communicate across subnets and access the internet via the gateway router, ensuring network functionality.
+The IP table configuration ensures proper communication and internet access between the devices on the two subnets (192.168.24.1 and 192.168.124.1). It includes the following rules:<br><br/>
+1.	**NAT (Network Address Translation):** The gateway device uses NAT to masquerade outgoing subnet traffic, allowing internet access through the external interface (eth0). This is achieved with the command:<br><br/>
+_sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE_ <br><br/>
+2.	**Forwarding Rules:** The gateway allows traffic to be forwarded between the two subnets and the internet. It accepts established and related connections, ensuring the devices can communicate with each other and the internet. The following rules are applied:<br><br/>
+_sudo iptables -A FORWARD -i enp0s8 -o enp0s9 -m state --state RELATED,ESTABLISHED -j ACCEPT_
+_sudo iptables -A FORWARD -i enp0s9 -o enp0s8 -j ACCEPT_<br><br/>
+3.	**Persistence:** The iptables configuration is saved using iptables-persistent, ensuring the rules remain in place after a reboot.<br><br/>
+This configuration allows the devices to communicate across subnets and access the internet via the gateway router, ensuring network functionality.<br><br/>
 
 
-Step 1: Configuring the Gateway (Ubuntu Server)
+### Step 1: Configuring the Gateway (Ubuntu Server)
 The Ubuntu server acts as the gateway between the two subnets and provides internet access.
 Additional of 2 network adapters for the Ubuntu desktop (intnet) and Application server (Intnet 1).
   
