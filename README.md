@@ -26,124 +26,109 @@ This configuration allows the devices to communicate across subnets and access t
 
 
 ### Step 1: Configuring the Gateway (Ubuntu Server)
-The Ubuntu server acts as the gateway between the two subnets and provides internet access.
+The Ubuntu server acts as the gateway between the two subnets and provides internet access.<br><br/>
 Additional of 2 network adapters for the Ubuntu desktop (intnet) and Application server (Intnet 1).
   
- 
-
- 
-Configure Static IPs on the Network Interfaces
-Edit the network configuration file: sudo nano /etc/netplan/00-installer-config.yaml
- 
+![Configuring Gateway Server](doc/US1.png) <br><br/>
+![Configuring Gateway Server](doc/US2.png) <br><br/>
+![Configuring Gateway Server](doc/US3.png) <br><br/>
+#### Configure Static IPs on the Network Interfaces
+Edit the network configuration file:
+_sudo nano /etc/netplan/00-installer-config.yaml_ <br><br/>
+![Configuring Static IPs](doc/US4.png) <br><br/>
 
 Apply the network changes:
 sudo netplan apply 
-Enable IP Forwarding: The server must enable IP forwarding to route traffic between the two subnets and the Internet.
-Open the sysctl configuration file:
-Sudo nano /etc/sysctl.conf
+**Enable IP Forwarding:** The server must enable IP forwarding to route traffic between the two subnets and the Internet.
+**Open the sysctl configuration file:**
+_Sudo nano /etc/sysctl.conf_
+![Apply the configuration](doc/US5.png) <br><br/>
  
 Uncomment the line (or add it if not present):
-net.ipv4.ip_forward=1
+_net.ipv4.ip_forward=1_ <br><br/>
+![IP Forwarding](doc/US6.png) <br><br/>
  
-Apply the changes:
-sudo sysctl -p
+**Apply the changes:**
+_sudo sysctl -p_
 
-Use a Shell Script
+### Use a Shell Script
 Create a shell script and run it:
-1.	Create the script file:
-nano iptables-setup.sh
-2.	Add the commands to the script:
- 
-3.	Save and close the file (CTRL + O, Enter, CTRL + X).
-4.	Make the script executable:
-chmod +x iptables-setup.sh
-5.	Run the script:
-./iptables-setup.sh
-D 
+1.	**Create the script file:**<br><br/>
+_nano iptables-setup.sh_<br><br/>
+2.	**Add the commands to the script:**<br><br/>
+ ![IP Forwarding](doc/US7.png) <br><br/>
+3.	**Save and close the file** _(CTRL + O, Enter, CTRL + X)._
+4.	**Make the script executable:**
+_chmod +x iptables-setup.sh_
+5.	**Run the script:**
+_./iptables-setup.sh_<br><br/>
+![Making the script executable](doc/US8.png) <br><br/>
 
-This report details the configuration steps required to establish communication between devices on two subnets (192.168.24.1 and 192.168.124.1) and enable internet access. The infrastructure includes the following devices:
-1.	Ubuntu 22.04 Desktop (192.168.24.5): Connected to Subnet 192.168.24.1.
-2.	Bitnami Application Server (192.168.124.5): Connected to Subnet 192.168.124.1.
-3.	Gateway Device (Ubuntu Server): Acts as a gateway between the two subnets and provides internet access.
+This report details the configuration steps required to establish communication between devices on two subnets (192.168.24.1 and 192.168.124.1) and enable internet access. The infrastructure includes the following devices:<br><br>
+1.	**Ubuntu 22.04 Desktop (192.168.24.5):** Connected to Subnet 192.168.24.1.
+2.	**Bitnami Application Server (192.168.124.5):** Connected to Subnet 192.168.124.1.
+3.	**Gateway Device (Ubuntu Server):** Acts as a gateway between the two subnets and provides internet access.
 
-Steps and Commands for Configuration
-Step 2: Configuring the Ubuntu Desktop (192.168.24.5)
-1.	Edit the network configuration file: The Ubuntu desktop must be configured to use the IP address 192.168.24.5, subnet mask 255.255.255.0, and the gateway set to the Ubuntu server’s IP address.
- 
- 
-
+### Steps and Commands for Configuration<br><br/>
+**Step 2: Configuring the Ubuntu Desktop (192.168.24.5)**
+1.	**Edit the network configuration file:** The Ubuntu desktop must be configured to use the IP address 192.168.24.5, subnet mask 255.255.255.0, and the gateway set to the Ubuntu server’s IP address.<br><br/>
+![Configuring Ubuntu Desktop](doc/UD1.png) <br><br/>
+![Assigning Static IP address](doc/UD2.png) <br><br/>
 Confirm that the (192.168.24.5) has been assign.
- 
+![Confirm the IP address](doc/UD3.png) <br><br/>
 
-Ping the subnet mask (192.168.24.1) and IP address (192.168.24.5) to confirm the connection.
- 
-
+**Ping the subnet mask (192.168.24.1) and IP address (192.168.24.5) to confirm the connection.**<br><br/>
+![Ping the subnet mask and IP address](doc/UD4.png) <br><br/>
 Ping the port 8.8.8.8 and google.com to confirm the connection to internet.
+![Ping port 8.8.8.8](doc/UD5.png) <br><br/>
+![Ping google.com](doc/UD6.png) <br><br/>
+**Ping the Bitnami application server 192.168.124.5 to confirm the connection and communication.**
+![Ping bitnami subnet and IP address](doc/UD7.png) <br><br/>
 
+### Step 3: Configuring the Bitnami Application Server (192.168.124.5)
+![Configuring the Bitnami Application Server](doc/B1.png) <br><br/>
  
- 
-Ping the Bitnami application server 192.168.124.5 to confirm the connection and communication.
- 
+**Edit the network configuration file:** The Bitnami application server must have a static IP configuration, similar to the desktop device.<br><br/>
+Edit the _/etc/netplan/00-installer-config.yaml file:_<br><br/>
+_sudo nano /etc/netplan/00-installer-config.yaml_
 
-
-
-
-
-
-
-
-Step 3: Configuring the Bitnami Application Server (192.168.124.5)
- 
-Edit the network configuration file: The Bitnami application server must have a static IP configuration, similar to the desktop device.
-Edit the /etc/netplan/00-installer-config.yaml file:
-sudo nano /etc/netplan/00-installer-config.yaml
-
-Configuration:    
+**Configuration:** 
 auto enp0s3
 iface enp0s3 inet static
 addresses 192.168.124.5
 netmask 255.255.255.0
 dns-nameserver 8.8.8.8
-gateway4: 192.168.124.1
+gateway4: 192.168.124.1<br><br/>
 
-Apply the network settings:
-sudo netplan apply
-        
-          
-  
+**Apply the network settings:**
+**sudo netplan apply**
+![Configure Static IP Address on Bitnami Server](doc/B2.png) <br><br/>
 
-Verify the configuration: Check the IP configuration with:
-Ip a
-
+**Verify the configuration: Check the IP configuration with:**
+_Ip a_
+![Verifying the IP configuration](doc/B3.png) <br><br/>
  
-Ping Test from Bitinami Server
- 
-Ping Test from Bitnami server to Desktop VM
- 
-Ping test to confirm communication to the internet.
- 
-Test connection from the Ubuntu Gateway Server to confirm communication between Ubuntu Desktop VM, Application (Bitnami) VM. 
+**Ping Test from Bitinami Server**
+![Ping Test from Bitnami Server](doc/B4.png) <br><br/>
 
-Ping test from the server to Ubuntu desktop subnet.
- 
+**Ping Test from Bitnami server to Desktop VM**
+![Ping Test to Desktop VM](doc/B5.png) <br><br/>
 
+**Ping test to confirm communication to the internet.**
+![Ping Test to confirm access to internet](doc/B6.png) <br><br/>
 
+**Test connection from the Ubuntu Gateway Server to confirm communication between Ubuntu Desktop VM, Application (Bitnami) VM.**
+![Ping Test from Ubuntu Server to Ubuntu Desktop and Application Bitnami Server](doc/B7.png) <br><br/>
+**Ping test from the server to Ubuntu desktop subnet.**
+![Ping Test to Ubuntu Desktop subnet](doc/B8.png) <br><br/>
+**Ping test to Application VM.**
+![Ping Test to Application VM](doc/B9.png) <br><br/>
+**Ping test to confirm communication to the internet.**
+ ![Ping Test to confirm communication to the internet](doc/B10.png) <br><br/>
 
-
-
-
-
-Ping test to Application VM.
- 
-
-Ping test to confirm communication to the internet.
- 
-
-
-
-
+## SUMMARY<BR><BR/>
 The process involved configuring a network setup with two subnets (192.168.24.1 and 192.168.124.1), connecting an Ubuntu 22.04 desktop, a Bitnami application server, and a gateway Ubuntu server. The desktop and application server were configured with static IP addresses, with the gateway Ubuntu server acting as the intermediary for routing traffic between the subnets and providing internet access. Key steps included enabling IP forwarding on the gateway, configuring NAT using iptables, and adding static routes to ensure communication between the subnets. The network devices were tested for connectivity by pinging between each other and verifying internet access.
 The configuration was successful, with all devices able to communicate between the two subnets and access the internet without any issues. The Ubuntu server acted as an effective gateway, routing traffic between the subnets and providing NAT functionality for internet access. IP forwarding and NAT configurations were properly set up, and connectivity was verified by successful ping tests across all devices, ensuring that the network setup was fully functional. The network now supports seamless communication and internet connectivity for both the Ubuntu desktop and Bitnami application server.
 
-Link to a screencast of my sandboxed network demonstration.
-https://www.loom.com/share/67b2f3c450584574abe1f0ddf80a3e5a?sid=d9f00a47-dceb-4f2e-91ef-753cd783a314
+**Link to a screencast of my sandboxed network demonstration.**
+[Link to a screencast of my sandboxed network demonstration.](https://www.loom.com/share/67b2f3c450584574abe1f0ddf80a3e5a?sid=d9f00a47-dceb-4f2e-91ef-753cd783a314)
