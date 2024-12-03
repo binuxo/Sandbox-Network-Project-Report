@@ -11,7 +11,7 @@ This setup ensures that devices in both subnets can communicate with each other 
 
 IP ADDRESS TABLE FOR A SANDBOXED NETWORK
 
-<embed src="IPTable.pdf" width="50%" height="400px" />
+<embed src="IPTable.pdf" width="100%" height="400px" />
 <br><br/>
 <br><br/>				
 
