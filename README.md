@@ -11,7 +11,8 @@ This setup ensures that devices in both subnets can communicate with each other 
 
 IP ADDRESS TABLE FOR A SANDBOXED NETWORK
 
-![Configuring Gateway Server](doc/IPTable.png)<br><br/>
+<embed src="doc/IPTable.pdf" width="100%" height="400px" />
+<br><br/>
 <br><br/>				
 
 The IP table configuration ensures proper communication and internet access between the devices on the two subnets (192.168.24.1 and 192.168.124.1). It includes the following rules:<br><br/>
