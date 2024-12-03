@@ -131,14 +131,11 @@ The process involved configuring a network setup with two subnets **(192.168.24.
 The configuration was successful, with all devices able to communicate between the two subnets and access the internet without any issues. The Ubuntu server acted as an effective gateway, routing traffic between the subnets and providing NAT functionality for internet access. IP forwarding and NAT configurations were properly set up, and connectivity was verified by successful ping tests across all devices, ensuring that the network setup was fully functional. The network now supports seamless communication and internet connectivity for both the Ubuntu desktop and Bitnami application server.
 <br><br/>
 
-
 <figure>
   <video width="640" height="360" controls>
     <source src="doc/Sandboxed Network Video.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
-  <figcaption>Video : Screencast of my sandboxed network demonstration</figcaption>
+  <figcaption>A Screencast of my sandboxed network connectivity demonstration</figcaption>
 </figure>
 <br><br/>
-
-[Link to a screencast of my sandboxed network demonstration.](https://www.loom.com/share/67b2f3c450584574abe1f0ddf80a3e5a?sid=d9f00a47-dceb-4f2e-91ef-753cd783a314)
